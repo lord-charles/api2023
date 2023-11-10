@@ -71,6 +71,25 @@ const sendAirtime = async (account) => {
     console.log(error);
   }
 };
+function calculateFutureDate(uptime) {
+  const currentTimestamp = Date.now(); // Get the current timestamp in milliseconds
+
+  // Extract the number of hours from the 'uptime' string
+  const hours = parseInt(uptime, 10);
+
+  if (!isNaN(hours)) {
+    // If 'uptime' is a valid number of hours, calculate the future date
+    const futureTimestamp = currentTimestamp + hours * 60 * 60 * 1000; // Convert hours to milliseconds
+
+    // Add 3 hours to the future timestamp
+    const futureTimestampWith3Hours = futureTimestamp + 3 * 60 * 60 * 1000;
+
+    const futureDate = new Date(futureTimestampWith3Hours);
+    return futureDate.toLocaleString(); // Convert to a user-friendly, locale-specific date and time format
+  } else {
+    return "Invalid input. Please provide a valid 'uptime' value in hours.";
+  }
+}
 
 const webhookTrigger = async (req, res) => {
   try {
@@ -87,18 +106,27 @@ const webhookTrigger = async (req, res) => {
     console.log(req.body);
 
     // send sms code
-    const sendCode = async (name, speed, bandwidth, devices, validity) => {
+    const sendCode = async (
+      name,
+      speed,
+      bandwidth,
+      devices,
+      validity,
+      period
+    ) => {
       //  console.log("sms starting transaction");
 
+      const future = calculateFutureDate(period);
+
       const message = `Voucher: ${name}
-Validity: ${validity}
+Account:${account}
+Amount:${value}
 Bandwidth: ${bandwidth}
 Devices: ${devices}
 Mpesa_ref:${mpesa_reference}
-Account:${account}
-Amount:${value}
+Expirely: ${future}
 
-Enjoy.`;
+Thank you.`;
 
       try {
         const data = JSON.stringify({
@@ -145,19 +173,26 @@ Enjoy.`;
       }
     };
     // send sms code
-    const sendCode2 = async (name, speed, bandwidth, devices, validity) => {
-      //  console.log("sms starting transaction");
+    const sendCode2 = async (
+      name,
+      speed,
+      bandwidth,
+      devices,
+      validity,
+      period
+    ) => {
+      const future = calculateFutureDate(period);
 
       const message = `${invoice_id} Confirmed. You have received Airtime of Ksh5.00.
 Voucher: ${name}
-Validity: ${validity}
+Account:${account}
+Amount:${value}
 Bandwidth: ${bandwidth}
 Devices: ${devices}
 Mpesa_ref:${mpesa_reference}
-Account:${account}
-Amount:${value}
+Expirely: ${future}
 
-Enjoy.`;
+Thank you.`;
 
       try {
         const data = JSON.stringify({
@@ -312,6 +347,23 @@ Enjoy.`;
       return `W${month}${day}${hours}${minutes}${seconds}`;
     };
 
+    // generate code
+    const generateUniqueCode3 = () => {
+      const currentDate = new Date();
+      const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+      const day = String(currentDate.getDate()).padStart(2, "0");
+      let hours = String(currentDate.getHours() + 3).padStart(2, "0");
+      const minutes = String(currentDate.getMinutes()).padStart(2, "0");
+      const seconds = String(currentDate.getSeconds()).padStart(2, "0");
+
+      // Convert hours to 12-hour format
+      if (hours > 12) {
+        hours -= 12;
+      }
+
+      return `M${month}${day}${hours}${minutes}${seconds}`;
+    };
+
     // wrong mpesa pin
     if (failed_reason === "The initiator information is invalid.") {
       try {
@@ -352,7 +404,7 @@ Enjoy.`;
             validity,
             period,
           });
-          await sendCode(name, speed, bandwidth, devices, validity);
+          await sendCode(name, speed, bandwidth, devices, validity, period);
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
@@ -378,7 +430,7 @@ Enjoy.`;
             validity,
             period,
           });
-          await sendCode(name, speed, bandwidth, devices, validity);
+          await sendCode(name, speed, bandwidth, devices, validity, period);
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
@@ -405,7 +457,7 @@ Enjoy.`;
             validity,
             period,
           });
-          await sendCode(name, speed, bandwidth, devices, validity);
+          await sendCode(name, speed, bandwidth, devices, validity, period);
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
@@ -432,7 +484,7 @@ Enjoy.`;
             validity,
             period,
           });
-          await sendCode(name, speed, bandwidth, devices, validity);
+          await sendCode(name, speed, bandwidth, devices, validity, period);
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
@@ -459,7 +511,7 @@ Enjoy.`;
             validity,
             period,
           });
-          await sendCode2(name, speed, bandwidth, devices, validity);
+          await sendCode2(name, speed, bandwidth, devices, validity, period);
           await sendAirtime(account);
         } catch (error) {
           console.log("Error adding user and sending code:", error);
@@ -487,7 +539,7 @@ Enjoy.`;
             validity,
             period,
           });
-          await sendCode(name, speed, bandwidth, devices, validity);
+          await sendCode(name, speed, bandwidth, devices, validity, period);
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
@@ -514,7 +566,7 @@ Enjoy.`;
             validity,
             period,
           });
-          await sendCode(name, speed, bandwidth, devices, validity);
+          await sendCode(name, speed, bandwidth, devices, validity, period);
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
@@ -541,12 +593,12 @@ Enjoy.`;
             validity,
             period,
           });
-          await sendCode(name, speed, bandwidth, devices, validity);
+          await sendCode(name, speed, bandwidth, devices, validity, period);
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
       } else if (value === "150.00") {
-        const profile = "3mbps1h";
+        const profile = "3mbps";
         const name = generateUniqueCode2();
         const uptime = "160h";
         const bytes = "40G";
@@ -568,7 +620,7 @@ Enjoy.`;
             validity,
             period,
           });
-          await sendCode(name, speed, bandwidth, devices, validity);
+          await sendCode(name, speed, bandwidth, devices, validity, period);
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
@@ -595,12 +647,12 @@ Enjoy.`;
             validity,
             period,
           });
-          await sendCode(name, speed, bandwidth, devices, validity);
+          await sendCode(name, speed, bandwidth, devices, validity, period);
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
       } else if (value === "200.00") {
-        const profile = "3mbps1h";
+        const profile = "3mbps";
         const name = generateUniqueCode2();
         const uptime = "160h";
         const bytes = "60G";
@@ -622,7 +674,7 @@ Enjoy.`;
             validity,
             period,
           });
-          await sendCode(name, speed, bandwidth, devices, validity);
+          await sendCode(name, speed, bandwidth, devices, validity, period);
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
@@ -649,7 +701,34 @@ Enjoy.`;
             validity,
             period,
           });
-          await sendCode(name, speed, bandwidth, devices, validity);
+          await sendCode(name, speed, bandwidth, devices, validity, period);
+        } catch (error) {
+          console.log("Error adding user and sending code:", error);
+        }
+      } else if (value === "500.00") {
+        const profile = "3mbps";
+        const name = generateUniqueCode3();
+        const uptime = "640h";
+        const bytes = "70G";
+        const speed = "8Mbps";
+        const bandwidth = "70GB";
+        const devices = "2";
+        const validity = "30days";
+        const period = "640h";
+
+        try {
+          await addUserToMikrotik({
+            name,
+            profile,
+            uptime,
+            bytes,
+            speed,
+            bandwidth,
+            devices,
+            validity,
+            period,
+          });
+          await sendCode(name, speed, bandwidth, devices, validity, period);
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
