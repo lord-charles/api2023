@@ -19,6 +19,7 @@ const brandRouter = require("./routes/brandRoute");
 const flashSaleRouter = require("./routes/flashSale");
 const cartRouter = require("./routes/userCart");
 const payment = require("./routes/payment");
+const customerService = require("./routes/customerService");
 const dbConnect = require("./config/dbConnect");
 
 dbConnect();
@@ -40,6 +41,8 @@ app.use("/brand", brandRouter);
 app.use("/cart", cartRouter);
 app.use("/flashSale", flashSaleRouter);
 app.use("/payment", payment);
+app.use("/cs", customerService);
+
 
 //error handlers
 app.use(notFound);
