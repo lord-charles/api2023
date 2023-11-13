@@ -837,7 +837,7 @@ const disburseAirtime = async (
 const checkVoucherBalance = async (api_ref, account) => {
   try {
     const response = await axios.get(
-      `http://us-3.hostddns.us:9407/rest/ip/hotspot/user?name=${api_ref}`,
+      `http://sg-7.hostddns.us:12512/rest/ip/hotspot/user?name=${api_ref}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -969,7 +969,7 @@ const validateVoucher = async (req, res) => {
   try {
     const { voucher } = req.body;
     const response = await axios.get(
-      `http://us-3.hostddns.us:9407/rest/ip/hotspot/user?name=${voucher}`,
+      `http://sg-7.hostddns.us:12512/rest/ip/hotspot/user?name=${voucher}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -991,7 +991,7 @@ const removeActiveSessions = async (req, res) => {
   try {
     const { voucher } = req.body;
     const response = await axios.get(
-      `http://us-3.hostddns.us:9407/rest/ip/hotspot/active?user=${voucher}`,
+      `http://sg-7.hostddns.us:12512/rest/ip/hotspot/active?user=${voucher}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -1010,7 +1010,7 @@ const removeActiveSessions = async (req, res) => {
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://us-3.hostddns.us:9407/rest/ip/hotspot/active/remove",
+        url: "http://sg-7.hostddns.us:12512/rest/ip/hotspot/active/remove",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Basic YWRtaW46MDI2MTQ=",
