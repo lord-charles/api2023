@@ -607,6 +607,7 @@ Thank you.`;
         const devices = "2";
         const validity = "7days";
         const period = "168h";
+        console.log(name);
 
         try {
           await addUserToMikrotik({
