@@ -543,7 +543,7 @@ Thank you.`;
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
-      } else if (value === "10.00" && account === "254705881279" || "254702359241" || "254740315545") {
+      } else if (value === "10.00" && account === "254702359241" ) {
         const profile = "3mbps";
         const name = generateUniqueCode();
         const uptime = "21h";
@@ -607,7 +607,6 @@ Thank you.`;
         const devices = "2";
         const validity = "7days";
         const period = "168h";
-        console.log(name);
 
         try {
           await addUserToMikrotik({
