@@ -128,30 +128,30 @@ Expirely: ${future}
 
 Thank you.`;
 
-      try {
-        const data = JSON.stringify({
-          mobile: account,
-          sender_name: "23107",
-          service_id: 0,
-          message: message,
-        });
+      // try {
+      //   const data = JSON.stringify({
+      //     mobile: account,
+      //     sender_name: "23107",
+      //     service_id: 0,
+      //     message: message,
+      //   });
 
-        const config = {
-          method: "post",
-          maxBodyLength: Infinity,
-          url: "https://api.mobitechtechnologies.com/sms/sendsms",
-          headers: {
-            h_api_key:
-              "22dd6700b48060c8ae97dc4c4c2363d720dbbb7802050cc7701e350e580ee052",
-            "Content-Type": "application/json",
-          },
-          data: data,
-        };
+      //   const config = {
+      //     method: "post",
+      //     maxBodyLength: Infinity,
+      //     url: "https://api.mobitechtechnologies.com/sms/sendsms",
+      //     headers: {
+      //       h_api_key:
+      //         "22dd6700b48060c8ae97dc4c4c2363d720dbbb7802050cc7701e350e580ee052",
+      //       "Content-Type": "application/json",
+      //     },
+      //     data: data,
+      //   };
 
-        await axios.request(config);
-      } catch (error) {
-        console.log("Error sending SMS:", error);
-      }
+      //   await axios.request(config);
+      // } catch (error) {
+      //   console.log("Error sending SMS:", error);
+      // }
 
       try {
         await axios.post("https://sms.textsms.co.ke/api/services/sendsms/", {
@@ -194,30 +194,30 @@ Expirely: ${future}
 
 Thank you.`;
 
-      try {
-        const data = JSON.stringify({
-          mobile: account,
-          sender_name: "23107",
-          service_id: 0,
-          message: message,
-        });
+      // try {
+      //   const data = JSON.stringify({
+      //     mobile: account,
+      //     sender_name: "23107",
+      //     service_id: 0,
+      //     message: message,
+      //   });
 
-        const config = {
-          method: "post",
-          maxBodyLength: Infinity,
-          url: "https://api.mobitechtechnologies.com/sms/sendsms",
-          headers: {
-            h_api_key:
-              "22dd6700b48060c8ae97dc4c4c2363d720dbbb7802050cc7701e350e580ee052",
-            "Content-Type": "application/json",
-          },
-          data: data,
-        };
+      //   const config = {
+      //     method: "post",
+      //     maxBodyLength: Infinity,
+      //     url: "https://api.mobitechtechnologies.com/sms/sendsms",
+      //     headers: {
+      //       h_api_key:
+      //         "22dd6700b48060c8ae97dc4c4c2363d720dbbb7802050cc7701e350e580ee052",
+      //       "Content-Type": "application/json",
+      //     },
+      //     data: data,
+      //   };
 
-        await axios.request(config);
-      } catch (error) {
-        console.log("Error sending SMS:", error);
-      }
+      //   await axios.request(config);
+      // } catch (error) {
+      //   console.log("Error sending SMS:", error);
+      // }
 
       try {
         await axios.post("https://sms.textsms.co.ke/api/services/sendsms/", {
@@ -261,8 +261,6 @@ Thank you.`;
         }
       }
 
-      // Example usage:
-      console.log("addtime", period);
       const future = calculateFutureDate(period);
 
       const data = {
@@ -278,7 +276,7 @@ Thank you.`;
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://sg-13.hostddns.us:3447/rest/ip/hotspot/user/add",
+        url: "http://id-3.hostddns.us:10258/rest/ip/hotspot/user/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Basic YWRtaW46MDI2MTQ=",
@@ -837,7 +835,7 @@ const disburseAirtime = async (
 const checkVoucherBalance = async (api_ref, account) => {
   try {
     const response = await axios.get(
-      `http://sg-13.hostddns.us:3447/rest/ip/hotspot/user?name=${api_ref}`,
+      `http://id-3.hostddns.us:10258/rest/ip/hotspot/user?name=${api_ref}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -969,7 +967,7 @@ const validateVoucher = async (req, res) => {
   try {
     const { voucher } = req.body;
     const response = await axios.get(
-      `http://sg-13.hostddns.us:3447/rest/ip/hotspot/user?name=${voucher}`,
+      `http://id-3.hostddns.us:10258/rest/ip/hotspot/user?name=${voucher}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -991,7 +989,7 @@ const removeActiveSessions = async (req, res) => {
   try {
     const { voucher } = req.body;
     const response = await axios.get(
-      `http://sg-13.hostddns.us:3447/rest/ip/hotspot/active?user=${voucher}`,
+      `http://id-3.hostddns.us:10258/rest/ip/hotspot/active?user=${voucher}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -1010,7 +1008,7 @@ const removeActiveSessions = async (req, res) => {
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://sg-13.hostddns.us:3447/rest/ip/hotspot/active/remove",
+        url: "http://id-3.hostddns.us:10258/rest/ip/hotspot/active/remove",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Basic YWRtaW46MDI2MTQ=",
