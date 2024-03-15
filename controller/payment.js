@@ -703,7 +703,7 @@ Thank you.`;
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
-      } else if (value === "501.00") {
+      } else if (value === "516.00") {
         const profile = "3mbps";
         const name = generateUniqueCode3();
         const uptime = "640h";
