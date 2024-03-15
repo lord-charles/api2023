@@ -406,7 +406,7 @@ Thank you.`;
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
-      } else if (value === "8.00") {
+      } else if (value === "7.00") {
         const profile = "3mbps1h";
         const name = generateUniqueCode();
         const uptime = "1h";
@@ -432,7 +432,7 @@ Thank you.`;
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
-      } else if (value === "21.00") {
+      } else if (value === "20.00") {
         const profile = "3mbps";
         const name = generateUniqueCode();
         const uptime = "21h";
@@ -459,7 +459,7 @@ Thank you.`;
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
-      } else if (value === "31.00") {
+      } else if (value === "30.00") {
         const profile = "3mbps";
         const name = generateUniqueCode();
         const uptime = "12h";
@@ -486,7 +486,7 @@ Thank you.`;
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
-      } else if (value === "36.00") {
+      } else if (value === "35.00") {
         const profile = "3mbps";
         const name = generateUniqueCode();
         const uptime = "21h";
@@ -514,7 +514,7 @@ Thank you.`;
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
-      } else if (value === "26.00") {
+      } else if (value === "25.00") {
         const profile = "4mbps";
         const name = generateUniqueCode();
         const uptime = "21h";
@@ -541,7 +541,7 @@ Thank you.`;
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
-      } else if (value === "11.00" && account === "254702359241") {
+      } else if (value === "10.00" && account === "254702359241") {
         const profile = "3mbps";
         const name = generateUniqueCode();
         const uptime = "21h";
@@ -595,7 +595,7 @@ Thank you.`;
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
-      } else if (value === "151.00") {
+      } else if (value === "150.00") {
         const profile = "3mbps";
         const name = generateUniqueCode2();
         const uptime = "160h";
@@ -622,7 +622,7 @@ Thank you.`;
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
-      } else if (value === "251.00") {
+      } else if (value === "250.00") {
         const profile = "4mbps";
         const name = generateUniqueCode2();
         const uptime = "160h";
@@ -649,7 +649,7 @@ Thank you.`;
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
-      } else if (value === "201.00") {
+      } else if (value === "200.00") {
         const profile = "3mbps";
         const name = generateUniqueCode2();
         const uptime = "160h";
@@ -676,7 +676,7 @@ Thank you.`;
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
-      } else if (value === "15.00") {
+      } else if (value === "14.00") {
         const profile = "3mbps1h";
         const name = generateUniqueCode();
         const uptime = "3h";
@@ -703,7 +703,7 @@ Thank you.`;
         } catch (error) {
           console.log("Error adding user and sending code:", error);
         }
-      } else if (value === "516.00") {
+      } else if (value === "500.00") {
         const profile = "3mbps";
         const name = generateUniqueCode3();
         const uptime = "640h";
