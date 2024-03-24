@@ -124,7 +124,7 @@ Amount:${value}
 Bandwidth: ${bandwidth}
 Devices: ${devices}
 Mpesa_ref:${mpesa_reference}
-Expirely: ${future}
+Expiry: ${future}
 
 Thank you.`;
 
@@ -190,7 +190,7 @@ Amount:${value}
 Bandwidth: ${bandwidth}
 Devices: ${devices}
 Mpesa_ref:${mpesa_reference}
-Expirely: ${future}
+Expiry: ${future}
 
 Thank you.`;
 
@@ -944,7 +944,7 @@ const sendCode3 = async ({ code, balance, time, uptime, account }) => {
 
   const message = `Balance for ${code}
 Data balance: ${balance}Gb
-Expirely: ${time}
+Expiry: ${time}
 Uptime(ative time):${uptime}
 Account:${account}
 
