@@ -276,7 +276,7 @@ Thank you.`;
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://jp-1.hostddns.us:12639/rest/ip/hotspot/user/add",
+        url: "http://id-10.hostddns.us:11662/rest/ip/hotspot/user/add",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Basic YWRtaW46MDI2MTQ=",
@@ -835,7 +835,7 @@ const disburseAirtime = async (
 const checkVoucherBalance = async (api_ref, account) => {
   try {
     const response = await axios.get(
-      `http://jp-1.hostddns.us:12639/rest/ip/hotspot/user?name=${api_ref}`,
+      `http://id-10.hostddns.us:11662/rest/ip/hotspot/user?name=${api_ref}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -967,7 +967,7 @@ const validateVoucher = async (req, res) => {
   try {
     const { voucher } = req.body;
     const response = await axios.get(
-      `http://jp-1.hostddns.us:12639/rest/ip/hotspot/user?name=${voucher}`,
+      `http://id-10.hostddns.us:11662/rest/ip/hotspot/user?name=${voucher}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -989,7 +989,7 @@ const removeActiveSessions = async (req, res) => {
   try {
     const { voucher } = req.body;
     const response = await axios.get(
-      `http://jp-1.hostddns.us:12639/rest/ip/hotspot/active?user=${voucher}`,
+      `http://id-10.hostddns.us:11662/rest/ip/hotspot/active?user=${voucher}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -1008,7 +1008,7 @@ const removeActiveSessions = async (req, res) => {
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://jp-1.hostddns.us:12639/rest/ip/hotspot/active/remove",
+        url: "http://id-10.hostddns.us:11662/rest/ip/hotspot/active/remove",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Basic YWRtaW46MDI2MTQ=",
