@@ -1,4 +1,5 @@
 const axios = require("axios");
+const Vouchers = require("../models/vouchers");
 
 const api = axios.create({
   baseURL: "https://payment.intasend.com/api/v1/payment/",
@@ -127,6 +128,20 @@ Mpesa_ref:${mpesa_reference}
 Expiry: ${future}
 
 Thank you.`;
+
+      // Create a new instance of the Voucher model with the webhook data
+      const voucher = new Vouchers({
+        Voucher: name,
+        Account: account,
+        Amount: value,
+        bandwidth: bandwidth,
+        devices: devices,
+        Mpesa_ref: mpesa_reference,
+        Expiry: future,
+      });
+
+      // Save the voucher data to the database
+      await voucher.save();
 
       // try {
       //   const data = JSON.stringify({
