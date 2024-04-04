@@ -1,6 +1,7 @@
 const axios = require("axios");
 const Vouchers = require("../models/vouchers");
 
+
 const api = axios.create({
   baseURL: "https://payment.intasend.com/api/v1/payment/",
   headers: {
@@ -1051,6 +1052,24 @@ const removeActiveSessions = async (req, res) => {
   }
 };
 
+const fetchVouchers = async (req, res) => {
+  try {
+    // Fetch all vouchers from the database
+    const vouchers = await Vouchers.find();
+
+    // If there are no vouchers found, return an error response
+    if (!vouchers) {
+      return res.status(404).json({ error: "No vouchers found" });
+    }
+
+    // If vouchers are found, return them in the response
+    res.json({ vouchers });
+  } catch (error) {
+    // If an error occurs, return an error response
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   webhookTrigger,
   stkpush,
@@ -1059,4 +1078,5 @@ module.exports = {
   disburseAirtime,
   validateVoucher,
   removeActiveSessions,
+  fetchVouchers,
 };

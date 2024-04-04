@@ -7,6 +7,7 @@ const {
   disburseAirtime,
   validateVoucher,
   removeActiveSessions,
+  fetchVouchers,
 } = require("../controller/payment");
 
 router.post("/", stkpush);
@@ -16,5 +17,7 @@ router.post("/sendAirtime", sendAirtime);
 router.post("/disburseAirtime", disburseAirtime);
 router.post("/validate-voucher", validateVoucher);
 router.post("/removeActiveSessions", removeActiveSessions);
+router.get("/fetchVouchers", fetchVouchers);
+
 
 module.exports = router;
