@@ -130,20 +130,6 @@ Expiry: ${future}
 
 Thank you.`;
 
-      // Create a new instance of the Voucher model with the webhook data
-      const voucher = new Vouchers({
-        Voucher: name,
-        Account: account,
-        Amount: value,
-        bandwidth: bandwidth,
-        devices: devices,
-        Mpesa_ref: mpesa_reference,
-        Expiry: future,
-      });
-
-      // Save the voucher data to the database
-      await voucher.save();
-
       // try {
       //   const data = JSON.stringify({
       //     mobile: account,
@@ -177,6 +163,22 @@ Thank you.`;
           shortcode: "TextSMS",
           mobile: account,
         });
+
+        // Create a new instance of the Voucher model with the webhook data
+        const voucher = new Vouchers({
+          Voucher: name,
+          Account: account,
+          Amount: value,
+          bandwidth: bandwidth,
+          devices: devices,
+          Mpesa_ref: mpesa_reference,
+          Expiry: future,
+        });
+
+        // Save the voucher data to the database
+        const voucherres = await voucher.save();
+        console.log(voucherres);
+
         // await axios.post("https://sms.savvybulksms.com/api/services/sendsms/", {
         //   apikey: "0c53f737571fcf0eb3b60a8a9bcbfd83",
         //   partnerID: "8816",
