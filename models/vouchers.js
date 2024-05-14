@@ -6,9 +6,6 @@ const VoucherModel = new mongoose.Schema(
     Voucher: {
       type: String,
     },
-    Account: {
-      type: String,
-    },
     Amount: {
       type: String,
     },
@@ -16,12 +13,6 @@ const VoucherModel = new mongoose.Schema(
       type: String,
     },
     devices: {
-      type: String,
-    },
-    Mpesa_ref: {
-      type: String,
-    },
-    Expiry: {
       type: String,
     },
   },

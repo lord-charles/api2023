@@ -1,5 +1,6 @@
 const axios = require("axios");
 const Vouchers = require("../models/vouchers");
+const vouchers = require("../models/vouchers");
 
 const api = axios.create({
   baseURL: "https://payment.intasend.com/api/v1/payment/",
@@ -107,19 +108,12 @@ const webhookTrigger = async (req, res) => {
     // console.log(req.body);
 
     // send sms code
-    const sendCode = async (
-      name,
-      speed,
-      bandwidth,
-      devices,
-      validity,
-      period
-    ) => {
+    const sendCode = async (Voucher, bandwidth, period, devices) => {
       //  console.log("sms starting transaction");
 
       const future = calculateFutureDate(period);
 
-      const message = `Voucher: ${name}
+      const message = `Voucher: ${Voucher}
 Account:${account}
 Amount:${value}
 Bandwidth: ${bandwidth}
@@ -249,133 +243,21 @@ Thank you.`;
       }
     };
 
-    // add to mikrotic
-    const addUserToMikrotik = async ({
-      name,
-      profile,
-      uptime,
-      bytes,
-      period,
-    }) => {
-      function calculateFutureDate(uptime) {
-        const currentTimestamp = Date.now(); // Get the current timestamp in milliseconds
-
-        // Extract the number of hours from the 'uptime' string
-        const hours = parseInt(uptime, 10);
-
-        if (!isNaN(hours)) {
-          // If 'uptime' is a valid number of hours, calculate the future date
-          const futureTimestamp = currentTimestamp + hours * 60 * 60 * 1000; // Convert hours to milliseconds
-
-          // Add 3 hours to the future timestamp
-          const futureTimestampWith3Hours =
-            futureTimestamp + 3 * 60 * 60 * 1000;
-
-          const futureDate = new Date(futureTimestampWith3Hours);
-          return futureDate.toLocaleString(); // Convert to a user-friendly, locale-specific date and time format
-        } else {
-          return "Invalid input. Please provide a valid 'uptime' value in hours.";
-        }
-      }
-
-      const future = calculateFutureDate(period);
-
-      const data = {
-        "limit-bytes-total": bytes,
-        "limit-uptime": uptime,
-        name,
-        password: name,
-        profile,
-        server: "hotspot1",
-        comment: future,
-      };
-      let config = {
-        method: "post",
-        maxBodyLength: Infinity,
-        url: "http://id-3.hostddns.us:4347/rest/ip/hotspot/user/add",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic YWRtaW46MDI2MTQ=",
-        },
-        data: data,
-      };
-
+    const findAndDeleteVoucherByAmount = async (amount, period) => {
       try {
-        const response = await axios.request(config);
-        console.log(response.data);
-      } catch (error) {
-        try {
-          await axios.post("https://sms.textsms.co.ke/api/services/sendsms/", {
-            apikey: "9d97e98deaa48d145fec88150ff28203",
-            partnerID: "7848",
-            message: `Something went wrong for account ${account}, package ${value}, please review ASAP.`,
-            shortcode: "TextSMS",
-            mobile: 254740315545,
-          });
+        // Find one voucher by the provided amount
+        const voucher = await vouchers.findOneAndDelete({ Amount: amount });
 
-          await axios.post("https://sms.textsms.co.ke/api/services/sendsms/", {
-            apikey: "9d97e98deaa48d145fec88150ff28203",
-            partnerID: "7848",
-            message: `We are processing your voucher, please wait.`,
-            shortcode: "TextSMS",
-            mobile: account,
-          });
-        } catch (nestedError) {
-          console.log("Error sending SMS:", nestedError);
+        if (voucher) {
+          const { Voucher, bandwidth, devices } = voucher;
+          await sendCode(Voucher, bandwidth, period, devices);
+          console.log(Voucher, bandwidth, devices);
+        } else {
+          console.log("No voucher found with the provided amount:", amount);
         }
-        console.log("Error adding user to Mikrotik:", error);
+      } catch (error) {
+        console.error("Error deleting voucher:", error);
       }
-    };
-
-    // generate code
-    const generateUniqueCode = () => {
-      const currentDate = new Date();
-      const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-      const day = String(currentDate.getDate()).padStart(2, "0");
-      let hours = String(currentDate.getHours() + 3).padStart(2, "0");
-      const minutes = String(currentDate.getMinutes()).padStart(2, "0");
-      const seconds = String(currentDate.getSeconds()).padStart(2, "0");
-
-      // Convert hours to 12-hour format
-      if (hours > 12) {
-        hours -= 12;
-      }
-
-      return `${month}${day}${hours}${minutes}${seconds}`;
-    };
-
-    // generate code
-    const generateUniqueCode2 = () => {
-      const currentDate = new Date();
-      const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-      const day = String(currentDate.getDate()).padStart(2, "0");
-      let hours = String(currentDate.getHours() + 3).padStart(2, "0");
-      const minutes = String(currentDate.getMinutes()).padStart(2, "0");
-      const seconds = String(currentDate.getSeconds()).padStart(2, "0");
-
-      // Convert hours to 12-hour format
-      if (hours > 12) {
-        hours -= 12;
-      }
-
-      return `W${month}${day}${hours}${minutes}${seconds}`;
-    };
-
-    // generate code
-    const generateUniqueCode3 = () => {
-      const currentDate = new Date();
-      const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-      const day = String(currentDate.getDate()).padStart(2, "0");
-      let hours = String(currentDate.getHours() + 3).padStart(2, "0");
-      const minutes = String(currentDate.getMinutes()).padStart(2, "0");
-      const seconds = String(currentDate.getSeconds()).padStart(2, "0");
-
-      // Convert hours to 12-hour format
-      if (hours > 12) {
-        hours -= 12;
-      }
-
-      return `M${month}${day}${hours}${minutes}${seconds}`;
     };
 
     // wrong mpesa pin
@@ -396,373 +278,115 @@ Thank you.`;
 
     if (state === "COMPLETE") {
       if (value === "19.00") {
-        const profile = "3mbps3h";
-        const name = generateUniqueCode();
-        const uptime = "6h";
-        const bytes = "30000000000";
-        const speed = "8Mbps";
-        const bandwidth = "30GB";
-        const devices = "2";
-        const validity = "6hours";
-        const period = "6h";
+        const period = "3h";
 
         try {
-          await addUserToMikrotik({
-            name,
-            profile,
-            uptime,
-            bytes,
-            speed,
-            bandwidth,
-            devices,
-            validity,
-            period,
-          });
-          await sendCode(name, speed, bandwidth, devices, validity, period);
+          findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
-          console.log("Error adding user and sending code:", error);
+          console.log("Error", error);
         }
       } else if (value === "7.00") {
-        const profile = "3mbps1h";
-        const name = generateUniqueCode();
-        const uptime = "1h";
-        const bytes = "10000000000";
-        const speed = "8Mbps";
-        const bandwidth = "10GB";
-        const devices = "1";
-        const validity = "1hour";
         const period = "1h";
+
         try {
-          await addUserToMikrotik({
-            name,
-            profile,
-            uptime,
-            bytes,
-            speed,
-            bandwidth,
-            devices,
-            validity,
-            period,
-          });
-          await sendCode(name, speed, bandwidth, devices, validity, period);
+          findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
-          console.log("Error adding user and sending code:", error);
+          console.log("Error ", error);
         }
       } else if (value === "20.00") {
-        const profile = "3mbps";
-        const name = generateUniqueCode();
-        const uptime = "21h";
-        const bytes = "5G";
-        const speed = "10Mbps";
-        const bandwidth = "5GB";
-        const devices = "2";
-        const validity = "21hours";
         const period = "21h";
 
         try {
-          await addUserToMikrotik({
-            name,
-            profile,
-            uptime,
-            bytes,
-            speed,
-            bandwidth,
-            devices,
-            validity,
-            period,
-          });
-          await sendCode(name, speed, bandwidth, devices, validity, period);
+          findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
-          console.log("Error adding user and sending code:", error);
+          console.log("Error ", error);
         }
       } else if (value === "30.00") {
-        const profile = "3mbps";
-        const name = generateUniqueCode();
-        const uptime = "12h";
-        const bytes = "40000000000";
-        const speed = "5Mbps";
-        const bandwidth = "50GB";
-        const devices = "2";
-        const validity = "12hours";
         const period = "12h";
 
         try {
-          await addUserToMikrotik({
-            name,
-            profile,
-            uptime,
-            bytes,
-            speed,
-            bandwidth,
-            devices,
-            validity,
-            period,
-          });
-          await sendCode(name, speed, bandwidth, devices, validity, period);
+          findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
-          console.log("Error adding user and sending code:", error);
+          console.log("Error ", error);
         }
       } else if (value === "35.00") {
-        const profile = "3mbps";
-        const name = generateUniqueCode();
-        const uptime = "21h";
-        const bytes = "10G";
-        const speed = "5Mbps";
-        const bandwidth = "10GB";
-        const devices = "2";
-        const validity = "21hours";
         const period = "21h";
 
         try {
-          await addUserToMikrotik({
-            name,
-            profile,
-            uptime,
-            bytes,
-            speed,
-            bandwidth,
-            devices,
-            validity,
-            period,
-          });
-          await sendCode2(name, speed, bandwidth, devices, validity, period);
+          findAndDeleteVoucherByAmount(value, period);
+
           await sendAirtime(account);
         } catch (error) {
-          console.log("Error adding user and sending code:", error);
+          console.log("Error", error);
         }
       } else if (value === "25.00") {
-        const profile = "4mbps";
-        const name = generateUniqueCode();
-        const uptime = "21h";
-        const bytes = "7G";
-        const speed = "10Mbps";
-        const bandwidth = "7GB";
-        const devices = "2";
-        const validity = "21hours";
         const period = "21h";
 
         try {
-          await addUserToMikrotik({
-            name,
-            profile,
-            uptime,
-            bytes,
-            speed,
-            bandwidth,
-            devices,
-            validity,
-            period,
-          });
-          await sendCode(name, speed, bandwidth, devices, validity, period);
+          findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
-          console.log("Error adding user and sending code:", error);
-        }
-      } else if (value === "10.00" && account === "254702359241") {
-        const profile = "3mbps";
-        const name = generateUniqueCode();
-        const uptime = "21h";
-        const bytes = "5G";
-        const speed = "10Mbps";
-        const bandwidth = "5GB";
-        const devices = "2";
-        const validity = "21hours";
-        const period = "21h";
-
-        try {
-          await addUserToMikrotik({
-            name,
-            profile,
-            uptime,
-            bytes,
-            speed,
-            bandwidth,
-            devices,
-            validity,
-            period,
-          });
-          await sendCode(name, speed, bandwidth, devices, validity, period);
-        } catch (error) {
-          console.log("Error adding user and sending code:", error);
-        }
-      } else if (value === "25.00" && account === "254790828294") {
-        const profile = "5mbps";
-        const name = generateUniqueCode();
-        const uptime = "21h";
-        const bytes = "6G";
-        const speed = "3sMbps";
-        const bandwidth = "6GB";
-        const devices = "2";
-        const validity = "21hours";
-        const period = "21h";
-
-        try {
-          await addUserToMikrotik({
-            name,
-            profile,
-            uptime,
-            bytes,
-            speed,
-            bandwidth,
-            devices,
-            validity,
-            period,
-          });
-          await sendCode(name, speed, bandwidth, devices, validity, period);
-        } catch (error) {
-          console.log("Error adding user and sending code:", error);
+          console.log("Error", error);
         }
       } else if (value === "150.00") {
-        const profile = "3mbps";
-        const name = generateUniqueCode2();
-        const uptime = "160h";
-        const bytes = "40G";
-        const speed = "8Mbps";
-        const bandwidth = "40GB";
-        const devices = "2";
-        const validity = "7days";
         const period = "168h";
 
         try {
-          await addUserToMikrotik({
-            name,
-            profile,
-            uptime,
-            bytes,
-            speed,
-            bandwidth,
-            devices,
-            validity,
-            period,
-          });
-          await sendCode(name, speed, bandwidth, devices, validity, period);
+          findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
-          console.log("Error adding user and sending code:", error);
+          console.log("Error", error);
         }
       } else if (value === "250.00") {
-        const profile = "4mbps";
-        const name = generateUniqueCode2();
-        const uptime = "160h";
-        const bytes = "80G";
-        const speed = "8Mbps";
-        const bandwidth = "80GB";
-        const devices = "2";
-        const validity = "7days";
         const period = "168h";
 
         try {
-          await addUserToMikrotik({
-            name,
-            profile,
-            uptime,
-            bytes,
-            speed,
-            bandwidth,
-            devices,
-            validity,
-            period,
-          });
-          await sendCode(name, speed, bandwidth, devices, validity, period);
+          findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
-          console.log("Error adding user and sending code:", error);
+          console.log("Error", error);
         }
       } else if (value === "200.00") {
-        const profile = "3mbps";
-        const name = generateUniqueCode2();
-        const uptime = "160h";
-        const bytes = "60G";
-        const speed = "8Mbps";
-        const bandwidth = "60GB";
-        const devices = "2";
-        const validity = "7days";
         const period = "168h";
 
         try {
-          await addUserToMikrotik({
-            name,
-            profile,
-            uptime,
-            bytes,
-            speed,
-            bandwidth,
-            devices,
-            validity,
-            period,
-          });
-          await sendCode(name, speed, bandwidth, devices, validity, period);
+          findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
-          console.log("Error adding user and sending code:", error);
+          console.log("Error", error);
         }
       } else if (value === "14.00") {
-        const profile = "3mbps1h";
-        const name = generateUniqueCode();
-        const uptime = "3h";
-        const bytes = "20000000000";
-        const speed = "8Mbps";
-        const bandwidth = "20GB";
-        const devices = "2";
-        const validity = "2hours";
         const period = "2h";
 
         try {
-          await addUserToMikrotik({
-            name,
-            profile,
-            uptime,
-            bytes,
-            speed,
-            bandwidth,
-            devices,
-            validity,
-            period,
-          });
-          await sendCode(name, speed, bandwidth, devices, validity, period);
+          findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
-          console.log("Error adding user and sending code:", error);
+          console.log("Error", error);
         }
       } else if (value === "500.00") {
-        const profile = "3mbps";
-        const name = generateUniqueCode3();
-        const uptime = "640h";
-        const bytes = "70G";
-        const speed = "8Mbps";
-        const bandwidth = "70GB";
-        const devices = "2";
-        const validity = "30days";
         const period = "640h";
 
         try {
-          await addUserToMikrotik({
-            name,
-            profile,
-            uptime,
-            bytes,
-            speed,
-            bandwidth,
-            devices,
-            validity,
-            period,
-          });
-          await sendCode(name, speed, bandwidth, devices, validity, period);
+          findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
-          console.log("Error adding user and sending code:", error);
+          console.log("Error", error);
+        }
+      } else if (value === "700.00") {
+        const period = "640h";
+
+        try {
+          findAndDeleteVoucherByAmount(value, period);
+        } catch (error) {
+          console.log("Error", error);
+        }
+      } else if (value === "900.00") {
+        const period = "640h";
+
+        try {
+          findAndDeleteVoucherByAmount(value, period);
+        } catch (error) {
+          console.log("Error", error);
         }
       } else if (value === "1.00") {
         await checkVoucherBalance(api_ref, account);
       }
     }
-
-    // const filter = { "invoice.invoice_id": invoice_id };
-    // const update = {
-    //   $set: {
-    //     "invoice.state": state,
-    //     "invoice.failed_reason": failed_reason,
-    //     "invoice.failed_code": failed_code,
-    //   },
-    // };
-
-    // const updatedPayment = await Payment.findOneAndUpdate(filter, update, {
-    //   new: true,
-    // });
 
     res.status(200).json({
       message: "Payload received successfully",
@@ -851,7 +475,7 @@ const disburseAirtime = async (
 const checkVoucherBalance = async (api_ref, account) => {
   try {
     const response = await axios.get(
-      `http://id-3.hostddns.us:4347/rest/ip/hotspot/user?name=${api_ref}`,
+      `http://sg-9.hostddns.us:4341/rest/ip/hotspot/user?name=${api_ref}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -983,7 +607,7 @@ const validateVoucher = async (req, res) => {
   try {
     const { voucher } = req.body;
     const response = await axios.get(
-      `http://id-3.hostddns.us:4347/rest/ip/hotspot/user?name=${voucher}`,
+      `http://sg-9.hostddns.us:4341/rest/ip/hotspot/user?name=${voucher}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -1005,7 +629,7 @@ const removeActiveSessions = async (req, res) => {
   try {
     const { voucher } = req.body;
     const response = await axios.get(
-      `http://id-3.hostddns.us:4347/rest/ip/hotspot/active?user=${voucher}`,
+      `http://sg-9.hostddns.us:4341/rest/ip/hotspot/active?user=${voucher}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -1024,7 +648,7 @@ const removeActiveSessions = async (req, res) => {
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://id-3.hostddns.us:4347/rest/ip/hotspot/active/remove",
+        url: "http://sg-9.hostddns.us:4341/rest/ip/hotspot/active/remove",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Basic YWRtaW46MDI2MTQ=",

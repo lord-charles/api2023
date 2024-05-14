@@ -20,6 +20,7 @@ const flashSaleRouter = require("./routes/flashSale");
 const cartRouter = require("./routes/userCart");
 const payment = require("./routes/payment");
 const customerService = require("./routes/customerService");
+const bulkVouchers = require("./routes/createVouchers");
 const dbConnect = require("./config/dbConnect");
 
 dbConnect();
@@ -42,6 +43,8 @@ app.use("/cart", cartRouter);
 app.use("/flashSale", flashSaleRouter);
 app.use("/payment", payment);
 app.use("/cs", customerService);
+app.use("/bulkVouchers", bulkVouchers);
+
 
 
 //error handlers
