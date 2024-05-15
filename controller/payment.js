@@ -244,13 +244,37 @@ Thank you.`;
 
     const findAndDeleteVoucherByAmount = async (amount, period) => {
       try {
-        console.log("stating");
+        console.log("starting");
         // Find one voucher by the provided amount
         const voucher = await Vouchers.findOneAndDelete({ Amount: amount });
 
+        const future = calculateFutureDate(period);
+
+        const { Voucher, bandwidth, devices } = voucher;
+        const message = `Voucher: ${Voucher}
+Account:${account}
+Amount:${value}
+Bandwidth: ${bandwidth}
+Devices: ${devices}
+Mpesa_ref:${mpesa_reference}
+Expiry: ${future}
+
+Thank you.`;
+        const smsr = await axios.post(
+          "https://sms.textsms.co.ke/api/services/sendsms/",
+          {
+            apikey: "9d97e98deaa48d145fec88150ff28203",
+            partnerID: "7848",
+            message: message,
+            shortcode: "TextSMS",
+            mobile: account,
+          }
+        );
+
+        console.log(smsr?.data);
+
         if (voucher) {
-          const { Voucher, bandwidth, devices } = voucher;
-          await sendCode(Voucher, bandwidth, period, devices);
+          // await sendCode(Voucher, bandwidth, period, devices);
           console.log(Voucher, bandwidth, devices);
         } else {
           console.log("No voucher found with the provided amount:", amount);
