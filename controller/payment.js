@@ -247,6 +247,7 @@ Thank you.`;
         console.log("starting", amount);
         // Find one voucher by the provided amount
         const voucher = await Vouchers.findOneAndDelete({ Amount: amount });
+        console.log("db", voucher);
 
         const future = calculateFutureDate(period);
 
