@@ -244,7 +244,7 @@ Thank you.`;
 
     const findAndDeleteVoucherByAmount = async (amount, period) => {
       try {
-        console.log("starting");
+        console.log("starting", amount);
         // Find one voucher by the provided amount
         const voucher = await Vouchers.findOneAndDelete({ Amount: amount });
 
