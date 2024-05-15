@@ -1,6 +1,5 @@
 const axios = require("axios");
 const Vouchers = require("../models/vouchers");
-const vouchers = require("../models/vouchers");
 
 const api = axios.create({
   baseURL: "https://payment.intasend.com/api/v1/payment/",
@@ -245,8 +244,9 @@ Thank you.`;
 
     const findAndDeleteVoucherByAmount = async (amount, period) => {
       try {
+        console.log("stating");
         // Find one voucher by the provided amount
-        const voucher = await vouchers.findOneAndDelete({ Amount: amount });
+        const voucher = await Vouchers.findOneAndDelete({ Amount: amount });
 
         if (voucher) {
           const { Voucher, bandwidth, devices } = voucher;
