@@ -24,6 +24,7 @@ const bulkVouchers = require("./routes/createVouchers");
 const dbConnect = require("./config/dbConnect");
 
 dbConnect();
+
 // apply middlewares
 app.use(morgan("dev"));
 app.use(cors());
@@ -44,8 +45,6 @@ app.use("/flashSale", flashSaleRouter);
 app.use("/payment", payment);
 app.use("/cs", customerService);
 app.use("/bulkVouchers", bulkVouchers);
-
-
 
 //error handlers
 app.use(notFound);
