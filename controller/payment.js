@@ -242,7 +242,7 @@ Thank you.`;
       }
     };
 
-    constawait findAndDeleteVoucherByAmount = async (amount, period) => {
+    const findAndDeleteVoucherByAmount = async (amount, period) => {
       try {
         console.log("starting", amount);
         // Find one voucher by the provided amount
