@@ -242,7 +242,7 @@ Thank you.`;
       }
     };
 
-    const findAndDeleteVoucherByAmount = async (amount, period) => {
+    constawait findAndDeleteVoucherByAmount = async (amount, period) => {
       try {
         console.log("starting", amount);
         // Find one voucher by the provided amount
@@ -306,7 +306,7 @@ Thank you.`;
         const period = "3h";
 
         try {
-          findAndDeleteVoucherByAmount(value, period);
+         await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -314,7 +314,7 @@ Thank you.`;
         const period = "1h";
 
         try {
-          findAndDeleteVoucherByAmount(value, period);
+         await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error ", error);
         }
@@ -322,7 +322,7 @@ Thank you.`;
         const period = "21h";
 
         try {
-          findAndDeleteVoucherByAmount(value, period);
+         await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error ", error);
         }
@@ -330,7 +330,7 @@ Thank you.`;
         const period = "12h";
 
         try {
-          findAndDeleteVoucherByAmount(value, period);
+         await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error ", error);
         }
@@ -338,7 +338,7 @@ Thank you.`;
         const period = "21h";
 
         try {
-          findAndDeleteVoucherByAmount(value, period);
+         await findAndDeleteVoucherByAmount(value, period);
 
           await sendAirtime(account);
         } catch (error) {
@@ -348,7 +348,7 @@ Thank you.`;
         const period = "21h";
 
         try {
-          findAndDeleteVoucherByAmount(value, period);
+         await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -356,7 +356,7 @@ Thank you.`;
         const period = "168h";
 
         try {
-          findAndDeleteVoucherByAmount(value, period);
+         await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -364,7 +364,7 @@ Thank you.`;
         const period = "168h";
 
         try {
-          findAndDeleteVoucherByAmount(value, period);
+         await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -372,7 +372,7 @@ Thank you.`;
         const period = "168h";
 
         try {
-          findAndDeleteVoucherByAmount(value, period);
+         await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -380,7 +380,7 @@ Thank you.`;
         const period = "2h";
 
         try {
-          findAndDeleteVoucherByAmount(value, period);
+         await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -388,7 +388,7 @@ Thank you.`;
         const period = "640h";
 
         try {
-          findAndDeleteVoucherByAmount(value, period);
+         await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -396,7 +396,7 @@ Thank you.`;
         const period = "640h";
 
         try {
-          findAndDeleteVoucherByAmount(value, period);
+         await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -404,7 +404,7 @@ Thank you.`;
         const period = "640h";
 
         try {
-          findAndDeleteVoucherByAmount(value, period);
+         await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
