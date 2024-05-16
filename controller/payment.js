@@ -149,7 +149,7 @@ Thank you.`;
 
       try {
         await axios.post("https://sms.textsms.co.ke/api/services/sendsms/", {
-          apikey: "9d97e98deaa48d145fec88150ff28203",
+          apikey: `${process.env.TEXTSMS_API_KEY}`,
           partnerID: "7848",
           message: message,
           shortcode: "TextSMS",
@@ -231,7 +231,7 @@ Thank you.`;
 
       try {
         await axios.post("https://sms.textsms.co.ke/api/services/sendsms/", {
-          apikey: "9d97e98deaa48d145fec88150ff28203",
+          apikey: `${process.env.TEXTSMS_API_KEY}`,
           partnerID: "7848",
           message: message,
           shortcode: "TextSMS",
@@ -247,7 +247,6 @@ Thank you.`;
         console.log("starting", amount);
         // Find one voucher by the provided amount
         const voucher = await Vouchers.findOneAndDelete({ Amount: amount });
-        console.log("db", voucher);
 
         const future = calculateFutureDate(period);
 
@@ -264,7 +263,7 @@ Thank you.`;
         const smsr = await axios.post(
           "https://sms.textsms.co.ke/api/services/sendsms/",
           {
-            apikey: "9d97e98deaa48d145fec88150ff28203",
+            apikey: `${process.env.TEXTSMS_API_KEY}`,
             partnerID: "7848",
             message: message,
             shortcode: "TextSMS",
@@ -289,7 +288,7 @@ Thank you.`;
     if (failed_reason === "The initiator information is invalid.") {
       try {
         await axios.post("https://sms.textsms.co.ke/api/services/sendsms/", {
-          apikey: "9d97e98deaa48d145fec88150ff28203",
+          apikey: `${process.env.TEXTSMS_API_KEY}`,
           partnerID: "7848",
           message:
             "Uh-oh! It seems like there was an issue with your M-Pesa PIN. To complete your ClassicsNetPro package purchase, we kindly ask you to double-check and enter the correct PIN. Thank you!",
@@ -483,7 +482,7 @@ const disburseAirtime = async (
     // Send SMS
     try {
       await axios.post("https://sms.textsms.co.ke/api/services/sendsms/", {
-        apikey: "9d97e98deaa48d145fec88150ff28203",
+        apikey: `${process.env.TEXTSMS_API_KEY}`,
         partnerID: "7848",
         message: `Airtime of Ksh 5 has been sent to ${account}, remaining account balance is ${availableBalance}`,
         shortcode: "TextSMS",
@@ -617,7 +616,7 @@ Thank you.`;
 
   try {
     await axios.post("https://sms.textsms.co.ke/api/services/sendsms/", {
-      apikey: "9d97e98deaa48d145fec88150ff28203",
+      apikey: `${process.env.TEXTSMS_API_KEY}`,
       partnerID: "7848",
       message: message,
       shortcode: "TextSMS",
