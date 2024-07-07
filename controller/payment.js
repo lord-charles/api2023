@@ -150,7 +150,7 @@ Thank you.`;
       try {
         await axios.post("https://sms.textsms.co.ke/api/services/sendsms/", {
           apikey: `${process.env.TEXTSMS_API_KEY}`,
-          partnerID: "7848",
+          partnerID: "10825",
           message: message,
           shortcode: "TextSMS",
           mobile: account,
@@ -232,7 +232,7 @@ Thank you.`;
       try {
         await axios.post("https://sms.textsms.co.ke/api/services/sendsms/", {
           apikey: `${process.env.TEXTSMS_API_KEY}`,
-          partnerID: "7848",
+          partnerID: "10825",
           message: message,
           shortcode: "TextSMS",
           mobile: account,
@@ -263,7 +263,7 @@ Thank you.`;
           "https://sms.textsms.co.ke/api/services/sendsms/",
           {
             apikey: `${process.env.TEXTSMS_API_KEY}`,
-            partnerID: "7848",
+            partnerID: "10825",
             message: message,
             shortcode: "TextSMS",
             mobile: account,
@@ -288,7 +288,7 @@ Thank you.`;
       try {
         await axios.post("https://sms.textsms.co.ke/api/services/sendsms/", {
           apikey: `${process.env.TEXTSMS_API_KEY}`,
-          partnerID: "7848",
+          partnerID: "10825",
           message:
             "Uh-oh! It seems like there was an issue with your M-Pesa PIN. To complete your ClassicsNetPro package purchase, we kindly ask you to double-check and enter the correct PIN. Thank you!",
           shortcode: "TextSMS",
@@ -482,7 +482,7 @@ const disburseAirtime = async (
     try {
       await axios.post("https://sms.textsms.co.ke/api/services/sendsms/", {
         apikey: `${process.env.TEXTSMS_API_KEY}`,
-        partnerID: "7848",
+        partnerID: "10825",
         message: `Airtime of Ksh 5 has been sent to ${account}, remaining account balance is ${availableBalance}`,
         shortcode: "TextSMS",
         mobile: "254740315545",
