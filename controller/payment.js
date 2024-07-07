@@ -244,7 +244,6 @@ Thank you.`;
 
     const findAndDeleteVoucherByAmount = async (amount, period) => {
       try {
-        console.log("starting", amount);
         // Find one voucher by the provided amount
         const voucher = await Vouchers.findOneAndDelete({ Amount: amount });
 
@@ -305,7 +304,7 @@ Thank you.`;
         const period = "3h";
 
         try {
-         await findAndDeleteVoucherByAmount(value, period);
+          await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -313,7 +312,7 @@ Thank you.`;
         const period = "1h";
 
         try {
-         await findAndDeleteVoucherByAmount(value, period);
+          await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error ", error);
         }
@@ -321,7 +320,7 @@ Thank you.`;
         const period = "21h";
 
         try {
-         await findAndDeleteVoucherByAmount(value, period);
+          await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error ", error);
         }
@@ -329,7 +328,7 @@ Thank you.`;
         const period = "12h";
 
         try {
-         await findAndDeleteVoucherByAmount(value, period);
+          await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error ", error);
         }
@@ -337,7 +336,7 @@ Thank you.`;
         const period = "21h";
 
         try {
-         await findAndDeleteVoucherByAmount(value, period);
+          await findAndDeleteVoucherByAmount(value, period);
 
           await sendAirtime(account);
         } catch (error) {
@@ -347,7 +346,7 @@ Thank you.`;
         const period = "21h";
 
         try {
-         await findAndDeleteVoucherByAmount(value, period);
+          await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -355,7 +354,7 @@ Thank you.`;
         const period = "168h";
 
         try {
-         await findAndDeleteVoucherByAmount(value, period);
+          await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -363,7 +362,7 @@ Thank you.`;
         const period = "168h";
 
         try {
-         await findAndDeleteVoucherByAmount(value, period);
+          await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -371,7 +370,7 @@ Thank you.`;
         const period = "168h";
 
         try {
-         await findAndDeleteVoucherByAmount(value, period);
+          await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -379,7 +378,7 @@ Thank you.`;
         const period = "2h";
 
         try {
-         await findAndDeleteVoucherByAmount(value, period);
+          await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -387,7 +386,7 @@ Thank you.`;
         const period = "640h";
 
         try {
-         await findAndDeleteVoucherByAmount(value, period);
+          await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -395,7 +394,7 @@ Thank you.`;
         const period = "640h";
 
         try {
-         await findAndDeleteVoucherByAmount(value, period);
+          await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -403,7 +402,7 @@ Thank you.`;
         const period = "640h";
 
         try {
-         await findAndDeleteVoucherByAmount(value, period);
+          await findAndDeleteVoucherByAmount(value, period);
         } catch (error) {
           console.log("Error", error);
         }
@@ -617,7 +616,7 @@ Thank you.`;
   try {
     await axios.post("https://sms.textsms.co.ke/api/services/sendsms/", {
       apikey: `${process.env.TEXTSMS_API_KEY}`,
-      partnerID: "7848",
+      partnerID: "10825",
       message: message,
       shortcode: "TextSMS",
       mobile: account,
