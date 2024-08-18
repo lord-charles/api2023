@@ -316,15 +316,17 @@ Thank you.`;
         } catch (error) {
           console.log("Error ", error);
         }
-      } else if (value === "2000") {
-        const period = "21h";
+      }
+      // else if (value === "20.00") {
+      //   const period = "21h";
 
-        try {
-          await findAndDeleteVoucherByAmount(value, period);
-        } catch (error) {
-          console.log("Error ", error);
-        }
-      } else if (value === "30.00") {
+      //   try {
+      //     await findAndDeleteVoucherByAmount(value, period);
+      //   } catch (error) {
+      //     console.log("Error ", error);
+      //   }
+      // }
+      else if (value === "30.00") {
         const period = "12h";
 
         try {
