@@ -316,7 +316,7 @@ Thank you.`;
         } catch (error) {
           console.log("Error ", error);
         }
-      } else if (value === "20.00") {
+      } else if (value === "2000") {
         const period = "21h";
 
         try {
@@ -342,7 +342,7 @@ Thank you.`;
         } catch (error) {
           console.log("Error", error);
         }
-      } else if (value === "25.00") {
+      } else if (value === "25.00" || value === "20.00") {
         const period = "21h";
 
         try {
